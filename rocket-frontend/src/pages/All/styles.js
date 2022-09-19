@@ -20,7 +20,7 @@ export const Container = styled.div`
     position: fixed;
     left: 0;
     bottom: 0;
-    border: 2px solid #fff;
+    
   }
   
 `;
