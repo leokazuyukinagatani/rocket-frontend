@@ -1,15 +1,19 @@
 import { Container } from './styles'
 import { FiLogIn } from 'react-icons/fi'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { api } from "../../services/api.js";
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
+import { Pagination } from '../../components/Pagination'
 
 export function All() {
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
+
+  let PageSize = 2;
+  const [currentPage, setCurrentPage] = useState(1);
 
   function handleNavigate() {
     navigate('/login');
@@ -28,9 +32,12 @@ export function All() {
       }
     }
     fetchRockets();
-    console.log(data);
-
   },[])
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return data.slice(firstPageIndex, lastPageIndex);
+  }, [data,currentPage]);
 
   return(
     <Container>
@@ -38,13 +45,21 @@ export function All() {
       <Button className="btn-all" title="Faça seu login" onClick={handleNavigate} icon={FiLogIn}/>
     
       {
-        data && data.map((rocket, index)=>(
+        currentData.map((rocket, index)=>(
           <Card 
             key={index}
             data={rocket}/>
           ))
           
         }
+
+      <Pagination
+        className="pagination-bar"
+        currentPage={currentPage}
+        totalCount={data.length}
+        pageSize={PageSize}
+        onPageChange={page => setCurrentPage(page)}
+      />
     
     
     </Container>

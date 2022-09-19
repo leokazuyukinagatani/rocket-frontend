@@ -13,6 +13,14 @@ export const Container = styled.div`
     color: ${({theme}) => theme.COLORS.PINK};
     margin: 20px;
   }
-  
+  .pagination-bar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    border: 2px solid #fff;
+  }
   
 `;
